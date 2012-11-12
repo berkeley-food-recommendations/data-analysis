@@ -33,6 +33,7 @@ tweet_restaurant_cross_distance = FOREACH tweet_restaurant_cross GENERATE
     + COS(filtered_tweets::lat * 3.14159265359 / 180) * COS(filtered_restaurants::lat * 3.14159265359 / 180)
     * COS(filtered_restaurants::lon * 3.14159265359 / 180 - filtered_tweets::lon * 3.14159265359 / 180))) AS distance:double;
 
+-- Matches a tweet-restaurant pair within 5 km from each other
 matched_tweets_restaurants = FILTER tweet_restaurant_cross_distance BY distance < 5.0;
 
 tweet_restaurant_group = GROUP matched_tweets_restaurants BY (filtered_tweets::id_str);
