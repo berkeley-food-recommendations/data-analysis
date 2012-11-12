@@ -26,9 +26,32 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
 # Project-specific secrets file
 twitter_keys.py
 boto.cfg
 .boto
 tweets/
 data/
+
+# Java
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+*.tsv
+*.csv
