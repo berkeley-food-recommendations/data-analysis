@@ -1,7 +1,8 @@
+-- SET mapreduce.job.submithost 127.0.0.1;
 
 -- custom funcs
 -- register 'twitter_helpers.py' using jython as twitter;
-REGISTER berkeleyfoodudfs.jar;
+REGISTER ./berkeleyfoodudfs.jar;
 
 -- Load tweets as uncompressed JSON - huge pain
 json_tweets = LOAD 'data/tweets.*.json.gz' USING PigStorage() AS (json_record:chararray);
@@ -34,7 +35,7 @@ tweet_restaurant_cross_distance = FOREACH tweet_restaurant_cross GENERATE
     * COS(filtered_restaurants::lon * 3.14159265359 / 180 - filtered_tweets::lon * 3.14159265359 / 180))) AS distance:double;
 
 -- Matches a tweet-restaurant pair within 5 km from each other
-matched_tweets_restaurants = FILTER tweet_restaurant_cross_distance BY distance < 5.0;
+matched_tweets_restaurants = FILTER tweet_restaurant_cross_distance BY distance < 2.0;
 
 tweet_restaurant_group = GROUP matched_tweets_restaurants BY (filtered_tweets::id_str);
 
@@ -48,4 +49,4 @@ DESCRIBE matched_tweets_restaurants;
 
 results = JOIN matched_tweet_restaurants BY group, filtered_tweets BY id_str;
 
-STORE results INTO 'data/location_matching.tsv' USING PigStorage();
+STORE results INTO 'data/location_matching-2-km.tsv' USING PigStorage();
