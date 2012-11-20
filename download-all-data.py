@@ -18,7 +18,7 @@ args = vars(parser.parse_args())
 s3 = boto.connect_s3()
 bucket = s3.get_bucket(args['bucket'])
 
-keys = bucket.get_all_keys()
+keys = bucket.list('old/tweets.')
 already_downloaded = os.listdir('data/')
 filtered_keys = [k for k in keys
                  if str(k.name.split('/')[-1]) not in already_downloaded]
