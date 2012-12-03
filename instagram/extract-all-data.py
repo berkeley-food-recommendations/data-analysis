@@ -3,14 +3,14 @@ import json as json
 import re
 import gzip
 
-output = open("insta_data.tsv", "a")
+output = open("insta_data.tsv", "w")
 
 #unicode fix for chars outside ASCII range
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
 
-#run this as 'python extract-all-data.py *txt.gz'
+#run this as 'python extract-all-data.py data/*txt.gz'
 for filename in sys.argv[1:]:
     print "running...", filename
     with gzip.open(filename, 'rb') as f:
@@ -19,9 +19,7 @@ for filename in sys.argv[1:]:
         entry_indices = [m.start()+1 for m in re.finditer('}{', insta_data)]
         # insert an entry for the first JSON
         entry_indices.insert(0, 0)
-        # insert an entry for the last JSON
-        #entry_indices.append(len(insta_data))
-    
+            
         for i in range(len(entry_indices) - 1):
             # iterate through actual JSONs of instagram data
             insta_text = insta_data[entry_indices[i]:entry_indices[i+1]]
